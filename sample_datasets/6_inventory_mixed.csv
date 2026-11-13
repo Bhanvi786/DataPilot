@@ -1,0 +1,5 @@
+sku,is_available,unit_price,warehouse_region
+A1,True,15.99,North
+B2,False,49.99,South
+C3,True,120.0,East
+D4,True,5.5,West

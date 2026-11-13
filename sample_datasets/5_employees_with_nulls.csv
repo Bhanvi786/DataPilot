@@ -1,0 +1,6 @@
+employee_id,department,salary,performance_rating
+EMP-01,Engineering,95000.0,4.5
+EMP-02,,82000.0,
+EMP-03,Sales,,3.8
+EMP-04,Marketing,71000.0,4.1
+EMP-05,,110000.0,
