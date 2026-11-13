@@ -4,27 +4,31 @@
 
 @layer base {
   body {
-    color: #0f172a;
-    background-color: #fafbfc;
+    color: #e1e7ed;
+    background-color: #07090d;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
-/* Custom modern scrollbars */
+/* Custom dark neon modern scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #0a0d12;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #22262c;
   border-radius: 9999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #10b981;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(14, 18, 24, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }

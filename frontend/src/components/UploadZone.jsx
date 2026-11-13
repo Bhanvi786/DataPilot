@@ -9,7 +9,6 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
     if (!file) return;
     setErrorMsg(null);
 
-    // Extension check (case-insensitive)
     const fileName = file.name || '';
     const lastDotIndex = fileName.lastIndexOf('.');
     if (lastDotIndex === -1) {
@@ -24,7 +23,6 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
       return;
     }
 
-    // Size limit check (50MB)
     if (file.size > 50 * 1024 * 1024) {
       setErrorMsg('File exceeds the 50MB size limit.');
       return;
@@ -38,7 +36,6 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
     if (fileRejections && fileRejections.length > 0) {
       const firstRejection = fileRejections[0];
       const err = firstRejection.errors[0];
-      // If dropzone rejected due to MIME type mismatch but file has a valid extension, still accept it
       if (firstRejection.file) {
         const name = firstRejection.file.name.toLowerCase();
         if (name.endsWith('.csv') || name.endsWith('.xlsx') || name.endsWith('.xls')) {
@@ -65,7 +62,6 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
     noClick: !!selectedFile,
     multiple: false,
     maxSize: 50 * 1024 * 1024,
-    // Accept broad MIME types and extensions
     accept: {
       'text/csv': ['.csv'],
       'application/vnd.ms-excel': ['.csv', '.xls'],
@@ -99,18 +95,18 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
           {...getRootProps()}
           className={`relative border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-all duration-200 cursor-pointer ${
             isDragActive
-              ? 'border-brand-500 bg-brand-50/50 scale-[0.99]'
-              : 'border-navy-200 hover:border-brand-400 bg-white hover:bg-slate-50/50 shadow-subtle'
+              ? 'border-emerald-400 bg-emerald-950/20 scale-[0.99]'
+              : 'border-[#1f2836] hover:border-emerald-500/50 bg-[#0a0d12] hover:bg-[#0e131a] shadow-subtle'
           }`}
         >
           <input {...getInputProps()} onChange={handleManualNativeInput} />
           <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center ring-8 ring-brand-50/50">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 flex items-center justify-center ring-8 ring-emerald-500/5 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
               <UploadCloud className="w-8 h-8" />
             </div>
 
             <div>
-              <p className="text-base font-semibold text-navy-950">
+              <p className="text-base font-semibold text-white">
                 {isDragActive ? 'Drop your dataset here' : 'Drag & drop your CSV or Excel file here'}
               </p>
               <p className="text-sm text-navy-400 mt-1">
@@ -124,14 +120,14 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
                 e.stopPropagation();
                 open();
               }}
-              className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all"
+              className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-black text-xs font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all"
             >
               Browse Files
             </button>
 
-            <div className="pt-4 border-t border-navy-100 flex items-center justify-center gap-6 text-xs text-navy-400">
-              <span className="flex items-center gap-1.5">
-                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+            <div className="pt-4 border-t border-[#1a212d] flex items-center justify-center gap-6 text-xs text-navy-400">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+                <FileSpreadsheet className="w-4 h-4" />
                 CSV, XLSX, XLS
               </span>
               <span>•</span>
@@ -142,10 +138,10 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-navy-200 p-6 shadow-subtle">
+        <div className="bg-[#0e131a] rounded-2xl border border-[#1a212d] p-6 shadow-subtle">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
                 {selectedFile.name?.endsWith('.csv') ? (
                   <FileText className="w-6 h-6" />
                 ) : (
@@ -154,14 +150,14 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="text-sm font-semibold text-navy-900 truncate max-w-sm sm:max-w-md">
+                  <h4 className="text-sm font-semibold text-white truncate max-w-sm sm:max-w-md">
                     {selectedFile.name}
                   </h4>
-                  <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase bg-brand-50 text-brand-700 border border-brand-200">
+                  <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-500/30">
                     Selected
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-navy-500 mt-1">
+                <div className="flex items-center gap-3 text-xs text-navy-400 mt-1">
                   <span>Size: {formatFileSize(selectedFile.size)}</span>
                   <span>•</span>
                   <span>Type: {selectedFile.name?.split('.').pop()?.toUpperCase() || 'FILE'}</span>
@@ -172,22 +168,22 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
             <button
               type="button"
               onClick={onRemoveFile}
-              className="text-navy-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-navy-50 transition-colors"
+              className="text-navy-400 hover:text-rose-400 p-1.5 rounded-lg hover:bg-[#161c24] transition-colors"
               title="Remove file"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-navy-100 flex items-center justify-between text-xs text-navy-500">
-            <span className="flex items-center gap-1 text-emerald-600 font-medium">
+          <div className="mt-4 pt-4 border-t border-[#1a212d] flex items-center justify-between text-xs text-navy-400">
+            <span className="flex items-center gap-1 text-emerald-400 font-medium">
               <CheckCircle2 className="w-4 h-4" />
               File ready for upload. Click "Upload to Backend" below.
             </span>
             <button
               type="button"
               onClick={onRemoveFile}
-              className="text-navy-500 hover:text-navy-900 font-medium underline"
+              className="text-navy-400 hover:text-white font-medium underline"
             >
               Choose a different file
             </button>
@@ -196,8 +192,8 @@ export default function UploadZone({ onFileSelect, selectedFile, onRemoveFile })
       )}
 
       {errorMsg && (
-        <div className="mt-3 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0" />
+        <div className="mt-3 p-3 rounded-lg bg-rose-950/50 border border-rose-500/30 text-xs text-rose-300 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
           <span>{errorMsg}</span>
         </div>
       )}

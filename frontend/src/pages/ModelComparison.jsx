@@ -61,19 +61,21 @@ export default function ModelComparison() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setSelectedTaskType('Classification')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${selectedTaskType === 'Classification'
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-white border border-navy-200 text-navy-700 hover:bg-slate-50'
-                }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                selectedTaskType === 'Classification'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-black font-bold shadow-md shadow-emerald-500/20'
+                  : 'bg-[#0e131a] border border-[#1f2836] text-navy-400 hover:text-white'
+              }`}
             >
               Classification Models
             </button>
             <button
               onClick={() => setSelectedTaskType('Regression')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${selectedTaskType === 'Regression'
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-white border border-navy-200 text-navy-700 hover:bg-slate-50'
-                }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                selectedTaskType === 'Regression'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-black font-bold shadow-md shadow-emerald-500/20'
+                  : 'bg-[#0e131a] border border-[#1f2836] text-navy-400 hover:text-white'
+              }`}
             >
               Regression Models
             </button>
@@ -83,22 +85,22 @@ export default function ModelComparison() {
 
       {/* Best Model Highlight Ribbon */}
       {bestModel && (
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-purple-50 via-white to-purple-50/50 border border-brand-200 shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-5 rounded-2xl bg-[#0e131a] border border-emerald-500/40 shadow-[0_0_25px_rgba(16,185,129,0.1)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-md shadow-brand-500/20 shrink-0">
-              <Trophy className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 text-black flex items-center justify-center shadow-lg shadow-emerald-500/25 shrink-0">
+              <Trophy className="w-6 h-6 stroke-[2.5]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-brand-700">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
                   Recommended Best Performer
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-brand-100 text-brand-800">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 border border-emerald-500/30">
                   {bestModel.problemType}
                 </span>
               </div>
-              <h3 className="text-lg font-bold text-navy-950 mt-0.5">{bestModel.name}</h3>
-              <p className="text-xs text-navy-500">
+              <h3 className="text-lg font-bold text-white mt-0.5">{bestModel.name}</h3>
+              <p className="text-xs text-navy-400">
                 Algorithm: {bestModel.algorithm} • Trained on {bestModel.dataset}
               </p>
             </div>
@@ -107,7 +109,7 @@ export default function ModelComparison() {
           <div className="flex items-center gap-3">
             <NavLink
               to="/predictions"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-brand-600 hover:bg-brand-700 text-white shadow-sm transition-all"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-black shadow-lg shadow-emerald-500/25 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5" />
               Deploy & Predict
@@ -124,28 +126,29 @@ export default function ModelComparison() {
       >
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={comparisonChartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#e2e8f0' }} />
-            <YAxis tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#e2e8f0' }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1a212d" vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#768390' }} axisLine={{ stroke: '#1a212d' }} />
+            <YAxis tick={{ fontSize: 11, fill: '#768390' }} axisLine={{ stroke: '#1a212d' }} />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#ffffff',
-                borderColor: '#e2e8f0',
-                borderRadius: '8px',
+                backgroundColor: '#0a0d12',
+                borderColor: '#10b981',
+                borderRadius: '10px',
+                color: '#ffffff',
                 fontSize: '12px'
               }}
             />
             <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
             {selectedTaskType === 'Classification' ? (
               <>
-                <Bar dataKey="ROCAUC" fill="#9333ea" radius={[4, 4, 0, 0]} name="ROC-AUC (%)" />
-                <Bar dataKey="Accuracy" fill="#c084fc" radius={[4, 4, 0, 0]} name="Accuracy (%)" />
-                <Bar dataKey="F1Score" fill="#d8b4fe" radius={[4, 4, 0, 0]} name="F1 Score (%)" />
+                <Bar dataKey="ROCAUC" fill="#10b981" radius={[4, 4, 0, 0]} name="ROC-AUC (%)" />
+                <Bar dataKey="Accuracy" fill="#34d399" radius={[4, 4, 0, 0]} name="Accuracy (%)" />
+                <Bar dataKey="F1Score" fill="#059669" radius={[4, 4, 0, 0]} name="F1 Score (%)" />
               </>
             ) : (
               <>
-                <Bar dataKey="R2Score" fill="#9333ea" radius={[4, 4, 0, 0]} name="R² Score (%)" />
-                <Bar dataKey="RMSE" fill="#c084fc" radius={[4, 4, 0, 0]} name="RMSE (Loss)" />
+                <Bar dataKey="R2Score" fill="#10b981" radius={[4, 4, 0, 0]} name="R² Score (%)" />
+                <Bar dataKey="RMSE" fill="#34d399" radius={[4, 4, 0, 0]} name="RMSE (Loss)" />
               </>
             )}
           </BarChart>
@@ -157,8 +160,9 @@ export default function ModelComparison() {
         {filteredModels.map((model) => (
           <div
             key={model.id}
-            className={`bg-white rounded-xl border p-5 shadow-subtle flex flex-col justify-between transition-all ${model.isBest ? 'border-brand-300 ring-1 ring-brand-300' : 'border-navy-200'
-              }`}
+            className={`bg-[#0e131a] rounded-xl border p-5 shadow-subtle flex flex-col justify-between transition-all ${
+              model.isBest ? 'border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.08)]' : 'border-[#1a212d]'
+            }`}
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -166,65 +170,65 @@ export default function ModelComparison() {
                   {model.problemType}
                 </span>
                 {model.isBest && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase bg-brand-50 text-brand-700 px-2 py-0.5 rounded border border-brand-200">
-                    <Trophy className="w-3 h-3 text-brand-600" />
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
+                    <Trophy className="w-3 h-3 text-emerald-400" />
                     Top Choice
                   </span>
                 )}
               </div>
 
-              <h4 className="text-base font-bold text-navy-950">{model.name}</h4>
-              <p className="text-xs text-navy-500 font-mono mt-0.5">{model.algorithm}</p>
+              <h4 className="text-base font-bold text-white">{model.name}</h4>
+              <p className="text-xs text-emerald-400 font-mono mt-0.5">{model.algorithm}</p>
 
               {/* Metrics Grid */}
-              <div className="mt-4 pt-3 border-t border-navy-100 grid grid-cols-2 gap-2 text-xs">
+              <div className="mt-4 pt-3 border-t border-[#1a212d] grid grid-cols-2 gap-2 text-xs">
                 {model.problemType === 'Classification' ? (
                   <>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">ROC-AUC</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.rocAuc}</span>
+                      <span className="font-bold text-emerald-400 font-mono">{model.metrics.rocAuc}</span>
                     </div>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">Accuracy</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.accuracy}</span>
+                      <span className="font-bold text-white font-mono">{model.metrics.accuracy}</span>
                     </div>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">Precision</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.precision}</span>
+                      <span className="font-bold text-white font-mono">{model.metrics.precision}</span>
                     </div>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">Recall</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.recall}</span>
+                      <span className="font-bold text-white font-mono">{model.metrics.recall}</span>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">R² Score</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.r2}</span>
+                      <span className="font-bold text-emerald-400 font-mono">{model.metrics.r2}</span>
                     </div>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">RMSE</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.rmse}</span>
+                      <span className="font-bold text-white font-mono">{model.metrics.rmse}</span>
                     </div>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">MAE</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.mae}</span>
+                      <span className="font-bold text-white font-mono">{model.metrics.mae}</span>
                     </div>
-                    <div className="p-2 rounded bg-slate-50 border border-navy-100">
+                    <div className="p-2 rounded bg-[#0a0d12] border border-[#1a212d]">
                       <span className="text-[10px] text-navy-400 block">MAPE</span>
-                      <span className="font-bold text-navy-900 font-mono">{model.metrics.mape}</span>
+                      <span className="font-bold text-white font-mono">{model.metrics.mape}</span>
                     </div>
                   </>
                 )}
               </div>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-navy-100 flex items-center justify-between text-xs text-navy-400">
+            <div className="mt-5 pt-3 border-t border-[#1a212d] flex items-center justify-between text-xs text-navy-400">
               <span>Time: {model.trainingDuration}</span>
               <NavLink
                 to="/predictions"
-                className="font-semibold text-brand-600 hover:text-brand-800"
+                className="font-semibold text-emerald-400 hover:text-emerald-300"
               >
                 Inference →
               </NavLink>
@@ -235,4 +239,3 @@ export default function ModelComparison() {
     </div>
   );
 }
-

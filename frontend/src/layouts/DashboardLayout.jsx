@@ -7,11 +7,11 @@ export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] flex">
+    <div className="min-h-screen bg-[#07090d] text-navy-800 flex">
       {/* Sidebar Navigation */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
       />
 
       {/* Main Content Area */}
@@ -25,4 +25,3 @@ export default function DashboardLayout() {
     </div>
   );
 }
-

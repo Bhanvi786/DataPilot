@@ -16,11 +16,9 @@ import { MOCK_MODELS, MOCK_DATASETS } from '../data/mockData';
 export default function Predictions() {
   const [selectedModelId, setSelectedModelId] = useState(MOCK_MODELS[0].id);
   const activeModel = MOCK_MODELS.find((m) => m.id === selectedModelId) || MOCK_MODELS[0];
-
-  // Find associated dataset to inspect dynamic feature schema
+  
   const associatedDataset = MOCK_DATASETS.find((d) => d.name === activeModel.dataset) || MOCK_DATASETS[0];
 
-  // Dynamic input values mapped by column name (never hardcoded fields)
   const [formInputs, setFormInputs] = useState(() => {
     const initial = {};
     associatedDataset.columns.forEach((col) => {
@@ -91,23 +89,23 @@ export default function Predictions() {
       />
 
       {/* Model Selector Card */}
-      <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-navy-400">
             Active Serving Model
           </span>
-          <h3 className="text-base font-bold text-navy-950 mt-0.5">{activeModel.name}</h3>
-          <p className="text-xs text-navy-500 font-mono">
-            Problem Type: {activeModel.problemType} • Target: <span className="text-brand-600 font-semibold">{activeModel.target}</span>
+          <h3 className="text-base font-bold text-white mt-0.5">{activeModel.name}</h3>
+          <p className="text-xs text-navy-400 font-mono">
+            Problem Type: {activeModel.problemType} • Target: <span className="text-emerald-400 font-semibold">{activeModel.target}</span>
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-navy-500 font-medium">Switch Model:</span>
+          <span className="text-xs text-navy-400 font-medium">Switch Model:</span>
           <select
             value={selectedModelId}
             onChange={(e) => handleModelChange(e.target.value)}
-            className="text-xs bg-white border border-navy-200 rounded-lg px-3 py-2 text-navy-800 font-medium focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+            className="text-xs bg-[#0a0d12] border border-[#1f2836] rounded-lg px-3 py-2 text-white font-medium focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
           >
             {MOCK_MODELS.map((m) => (
               <option key={m.id} value={m.id}>
@@ -120,15 +118,15 @@ export default function Predictions() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Dynamic Schema-Driven Form */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-navy-200/80 p-6 shadow-subtle">
+        <div className="lg:col-span-2 bg-[#0e131a] rounded-xl border border-[#1a212d] p-6 shadow-subtle">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-bold text-navy-950">Dynamic Feature Input Matrix</h3>
-              <p className="text-xs text-navy-500">
-                Inputs generated dynamically from <span className="font-mono text-navy-700">{activeModel.dataset}</span> schema.
+              <h3 className="text-sm font-bold text-white">Dynamic Feature Input Matrix</h3>
+              <p className="text-xs text-navy-400">
+                Inputs generated dynamically from <span className="font-mono text-emerald-400">{activeModel.dataset}</span> schema.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-navy-100 text-navy-600">
+            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-[#161c24] text-emerald-400 border border-emerald-500/20">
               No Hardcoded Inputs
             </span>
           </div>
@@ -139,7 +137,7 @@ export default function Predictions() {
                 .filter((col) => col.name !== activeModel.target)
                 .map((col) => (
                   <div key={col.name} className="space-y-1">
-                    <label className="text-xs font-semibold text-navy-700 font-mono flex items-center justify-between">
+                    <label className="text-xs font-semibold text-navy-300 font-mono flex items-center justify-between">
                       <span>{col.name}</span>
                       <span className="text-[10px] text-navy-400 font-sans font-normal uppercase">
                         {col.type}
@@ -151,13 +149,13 @@ export default function Predictions() {
                       value={formInputs[col.name] !== undefined ? formInputs[col.name] : ''}
                       onChange={(e) => handleInputChange(col.name, e.target.value)}
                       placeholder={`Sample: ${col.sample || 'val'}`}
-                      className="w-full text-xs font-mono bg-white border border-navy-200 rounded-lg px-3 py-2 text-navy-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                      className="w-full text-xs font-mono bg-[#0a0d12] border border-[#1f2836] rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all"
                     />
                   </div>
                 ))}
             </div>
 
-            <div className="pt-4 border-t border-navy-100 flex items-center justify-end gap-3">
+            <div className="pt-4 border-t border-[#1a212d] flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={() => {
@@ -168,7 +166,7 @@ export default function Predictions() {
                   setFormInputs(reset);
                   setPredictionResult(null);
                 }}
-                className="px-4 py-2 text-xs font-semibold text-navy-500 hover:text-navy-800 transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-navy-400 hover:text-white transition-colors"
               >
                 Reset to Sample
               </button>
@@ -176,7 +174,7 @@ export default function Predictions() {
               <button
                 type="submit"
                 disabled={isPredicting}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-brand-600 hover:bg-brand-700 text-white shadow-md shadow-brand-500/20 transition-all disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-black shadow-lg shadow-emerald-500/25 transition-all disabled:opacity-50"
               >
                 {isPredicting ? (
                   <>
@@ -196,46 +194,46 @@ export default function Predictions() {
 
         {/* Prediction Results Area */}
         <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle flex flex-col justify-between min-h-[320px]">
+          <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle flex flex-col justify-between min-h-[320px]">
             <div>
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-navy-400">
                   Inference Output
                 </span>
-                <span className="text-[10px] font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-950/70 border border-emerald-500/30 px-2 py-0.5 rounded">
                   Target: {activeModel.target}
                 </span>
               </div>
 
               {predictionResult ? (
                 <div className="space-y-4">
-                  <div className="p-4 rounded-xl bg-purple-50/70 border border-brand-200">
-                    <span className="text-xs font-semibold text-brand-800 block">
+                  <div className="p-4 rounded-xl bg-[#081f14] border border-emerald-500/40">
+                    <span className="text-xs font-semibold text-emerald-400 block">
                       Estimated Outcome:
                     </span>
-                    <div className="text-2xl font-black text-navy-950 font-mono mt-1">
+                    <div className="text-2xl font-black text-white font-mono mt-1">
                       {predictionResult.outputClass || predictionResult.predictedValue}
                     </div>
-                    <div className="text-xs text-brand-700 font-semibold mt-1">
+                    <div className="text-xs text-emerald-300 font-semibold mt-1">
                       {predictionResult.confidence || `CI: ${predictionResult.confidenceInterval}`}
                     </div>
                   </div>
 
-                  <div className="space-y-2 text-xs text-navy-600">
-                    <div className="flex justify-between py-1 border-b border-navy-100">
+                  <div className="space-y-2 text-xs text-navy-400">
+                    <div className="flex justify-between py-1 border-b border-[#1a212d]">
                       <span>Model Latency:</span>
-                      <span className="font-mono font-semibold text-navy-900">{predictionResult.latency}</span>
+                      <span className="font-mono font-semibold text-white">{predictionResult.latency}</span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-navy-100">
+                    <div className="flex justify-between py-1 border-b border-[#1a212d]">
                       <span>Top Attribution:</span>
-                      <span className="font-mono text-navy-900 text-right">{predictionResult.topInfluencingFactor}</span>
+                      <span className="font-mono text-emerald-400 text-right">{predictionResult.topInfluencingFactor}</span>
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-12 text-navy-400">
-                  <Sparkles className="w-8 h-8 mx-auto mb-2 text-navy-300" />
-                  <p className="text-xs font-medium">Ready for Inference</p>
+                  <Sparkles className="w-8 h-8 mx-auto mb-2 text-emerald-500/50" />
+                  <p className="text-xs font-medium text-white">Ready for Inference</p>
                   <p className="text-[11px] text-navy-400 mt-1 max-w-[200px] mx-auto">
                     Fill the feature values on the left and click Generate Prediction.
                   </p>
@@ -243,8 +241,8 @@ export default function Predictions() {
               )}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-navy-100 text-[11px] text-navy-400">
-              Future API hook: <code className="text-brand-700 font-mono">POST /predict</code>
+            <div className="mt-4 pt-3 border-t border-[#1a212d] text-[11px] text-navy-400">
+              Future API hook: <code className="text-emerald-400 font-mono">POST /predict</code>
             </div>
           </div>
         </div>
@@ -252,4 +250,3 @@ export default function Predictions() {
     </div>
   );
 }
-

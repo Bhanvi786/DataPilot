@@ -13,17 +13,25 @@ import {
 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { MOCK_DATASETS } from '../data/mockData';
+import { useDataset } from '../context/DatasetContext';
 
 export default function ModelTraining() {
   const navigate = useNavigate();
-  const [selectedDatasetId, setSelectedDatasetId] = useState(MOCK_DATASETS[0].id);
-  const activeDataset = MOCK_DATASETS.find((d) => d.id === selectedDatasetId) || MOCK_DATASETS[0];
+  const { activeDataset: uploadedDataset } = useDataset();
 
-  // Dynamic target variable selection (Never hardcoded)
-  const [targetColumn, setTargetColumn] = useState(activeDataset.targetCandidate);
+  const [selectedDatasetId, setSelectedDatasetId] = useState(
+    uploadedDataset?.dataset_id ? 'uploaded' : MOCK_DATASETS[0].id
+  );
+
+  const activeDataset = (selectedDatasetId === 'uploaded' && uploadedDataset) 
+    ? uploadedDataset 
+    : (MOCK_DATASETS.find((d) => d.id === selectedDatasetId) || MOCK_DATASETS[0]);
+
+  const [targetColumn, setTargetColumn] = useState(
+    activeDataset.targetCandidate || (activeDataset.columns && activeDataset.columns[0]?.name) || ''
+  );
   const [problemType, setProblemType] = useState('Auto Detect');
-
-  // Algorithms multi-selection
+  
   const [selectedAlgorithms, setSelectedAlgorithms] = useState([
     'xgboost',
     'random_forest',
@@ -34,7 +42,6 @@ export default function ModelTraining() {
   const [isTraining, setIsTraining] = useState(false);
   const [trainingProgress, setTrainingProgress] = useState(0);
 
-  // Available candidate algorithms
   const classificationAlgorithms = [
     { id: 'xgboost', name: 'XGBoost Classifier', desc: 'Gradient boosted trees with regularization' },
     { id: 'random_forest', name: 'Random Forest', desc: 'Ensemble bagging trees with feature bootstrapping' },
@@ -61,9 +68,11 @@ export default function ModelTraining() {
 
   const handleDatasetChange = (newDsId) => {
     setSelectedDatasetId(newDsId);
-    const ds = MOCK_DATASETS.find((d) => d.id === newDsId);
-    if (ds) {
-      setTargetColumn(ds.targetCandidate);
+    if (newDsId === 'uploaded' && uploadedDataset) {
+      setTargetColumn(uploadedDataset.columns[0]?.name || '');
+    } else {
+      const ds = MOCK_DATASETS.find((d) => d.id === newDsId);
+      if (ds) setTargetColumn(ds.targetCandidate);
     }
   };
 
@@ -96,22 +105,25 @@ export default function ModelTraining() {
       />
 
       {/* Dataset Context Bar */}
-      <div className="bg-white rounded-xl border border-navy-200/80 p-4 shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-4 shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold text-xs">
+          <div className="w-9 h-9 rounded-lg bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold text-xs">
             DS
           </div>
           <div>
-            <p className="text-xs font-semibold text-navy-900">Training Dataset Source:</p>
-            <p className="text-xs text-navy-500">{activeDataset.rowCount.toLocaleString()} rows • {activeDataset.columnCount} features</p>
+            <p className="text-xs font-semibold text-white">Training Dataset Source:</p>
+            <p className="text-xs text-navy-400">{activeDataset.row_count || activeDataset.rowCount} rows • {activeDataset.column_count || activeDataset.columnCount} features</p>
           </div>
         </div>
 
         <select
           value={selectedDatasetId}
           onChange={(e) => handleDatasetChange(e.target.value)}
-          className="text-xs bg-white border border-navy-200 rounded-lg px-3 py-2 text-navy-800 font-medium focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+          className="text-xs bg-[#0a0d12] border border-[#1f2836] rounded-lg px-3 py-2 text-white font-medium focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
         >
+          {uploadedDataset && (
+            <option value="uploaded">Uploaded: {uploadedDataset.filename}</option>
+          )}
           {MOCK_DATASETS.map((ds) => (
             <option key={ds.id} value={ds.id}>
               {ds.name}
@@ -125,23 +137,23 @@ export default function ModelTraining() {
         {/* Left Column: Target & Problem Settings */}
         <div className="lg:col-span-2 space-y-6">
           {/* Target Variable Selector */}
-          <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle">
+          <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-navy-800">
+              <label className="text-xs font-bold uppercase tracking-wider text-white">
                 1. Select Target Variable (Y)
               </label>
-              <span className="text-[11px] font-medium text-brand-600 bg-brand-50 px-2 py-0.5 rounded">
+              <span className="text-[11px] font-medium text-emerald-400 bg-emerald-950/70 border border-emerald-500/20 px-2 py-0.5 rounded">
                 Dynamic Schema
               </span>
             </div>
-            <p className="text-xs text-navy-500 mb-3">
+            <p className="text-xs text-navy-400 mb-3">
               Choose any column from the dataset as the optimization objective.
             </p>
 
             <select
               value={targetColumn}
               onChange={(e) => setTargetColumn(e.target.value)}
-              className="w-full text-xs font-mono bg-white border border-navy-200 rounded-lg px-3 py-2.5 text-navy-900 font-medium focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
+              className="w-full text-xs font-mono bg-[#0a0d12] border border-[#1f2836] rounded-lg px-3 py-2.5 text-white font-medium focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
             >
               {activeDataset.columns.map((col) => (
                 <option key={col.name} value={col.name}>
@@ -152,11 +164,11 @@ export default function ModelTraining() {
           </div>
 
           {/* Problem Type Selector */}
-          <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle">
-            <label className="text-xs font-bold uppercase tracking-wider text-navy-800 block mb-2">
+          <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle">
+            <label className="text-xs font-bold uppercase tracking-wider text-white block mb-2">
               2. Problem Type Classification
             </label>
-            <p className="text-xs text-navy-500 mb-4">
+            <p className="text-xs text-navy-400 mb-4">
               Auto Detect evaluates unique target cardinality to choose between classification and continuous regression.
             </p>
 
@@ -166,10 +178,11 @@ export default function ModelTraining() {
                   key={type}
                   type="button"
                   onClick={() => setProblemType(type)}
-                  className={`py-2.5 px-3 rounded-lg text-xs font-semibold border transition-all text-center ${problemType === type
-                      ? 'border-brand-600 bg-brand-50 text-brand-700 shadow-sm'
-                      : 'border-navy-200 bg-white text-navy-600 hover:bg-slate-50'
-                    }`}
+                  className={`py-2.5 px-3 rounded-lg text-xs font-semibold border transition-all text-center ${
+                    problemType === type
+                      ? 'border-emerald-500 bg-emerald-950/70 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                      : 'border-[#1f2836] bg-[#0a0d12] text-navy-400 hover:text-white hover:bg-[#121721]'
+                  }`}
                 >
                   {type}
                 </button>
@@ -178,9 +191,9 @@ export default function ModelTraining() {
           </div>
 
           {/* Candidate Algorithms Selection */}
-          <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle">
+          <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-navy-800">
+              <label className="text-xs font-bold uppercase tracking-wider text-white">
                 3. Candidate ML Algorithms
               </label>
               <span className="text-[11px] text-navy-400">Select algorithms to train & benchmark</span>
@@ -193,18 +206,20 @@ export default function ModelTraining() {
                   <div
                     key={algo.id}
                     onClick={() => toggleAlgorithm(algo.id)}
-                    className={`p-3 rounded-lg border text-xs cursor-pointer transition-all flex items-center justify-between ${isSelected
-                        ? 'border-brand-300 bg-purple-50/40'
-                        : 'border-navy-200 bg-white hover:bg-slate-50'
-                      }`}
+                    className={`p-3 rounded-lg border text-xs cursor-pointer transition-all flex items-center justify-between ${
+                      isSelected
+                        ? 'border-emerald-500/50 bg-emerald-950/30'
+                        : 'border-[#1f2836] bg-[#0a0d12] hover:bg-[#121721]'
+                    }`}
                   >
                     <div>
-                      <p className="font-semibold text-navy-900">{algo.name}</p>
-                      <p className="text-[11px] text-navy-500">{algo.desc}</p>
+                      <p className="font-semibold text-white">{algo.name}</p>
+                      <p className="text-[11px] text-navy-400">{algo.desc}</p>
                     </div>
-                    <div className={`w-4 h-4 rounded border flex items-center justify-center ${isSelected ? 'bg-brand-600 border-brand-600 text-white' : 'border-navy-300'
-                      }`}>
-                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
+                    <div className={`w-4 h-4 rounded border flex items-center justify-center ${
+                      isSelected ? 'bg-emerald-500 border-emerald-500 text-black' : 'border-[#2d3748]'
+                    }`}>
+                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 stroke-[3]" />}
                     </div>
                   </div>
                 );
@@ -215,15 +230,15 @@ export default function ModelTraining() {
 
         {/* Right Column: Validation & Execution Panel */}
         <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-navy-800">
+          <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle space-y-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">
               Training Hyperparameters
             </h3>
 
             <div>
-              <div className="flex justify-between text-xs text-navy-600 mb-1">
+              <div className="flex justify-between text-xs text-navy-400 mb-1">
                 <span>Test Split Ratio</span>
-                <span className="font-semibold">{testSplit}%</span>
+                <span className="font-semibold text-emerald-400 font-mono">{testSplit}%</span>
               </div>
               <input
                 type="range"
@@ -232,7 +247,7 @@ export default function ModelTraining() {
                 step="5"
                 value={testSplit}
                 onChange={(e) => setTestSplit(Number(e.target.value))}
-                className="w-full accent-brand-600"
+                className="w-full accent-emerald-500"
               />
               <div className="flex justify-between text-[10px] text-navy-400 mt-0.5">
                 <span>10% (Small Holdout)</span>
@@ -240,28 +255,28 @@ export default function ModelTraining() {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-navy-100 text-xs space-y-2">
-              <div className="flex items-center justify-between text-navy-600">
+            <div className="pt-3 border-t border-[#1a212d] text-xs space-y-2">
+              <div className="flex items-center justify-between text-navy-400">
                 <span>Cross-Validation:</span>
-                <span className="font-semibold text-navy-900">5-Fold Stratified</span>
+                <span className="font-semibold text-white">5-Fold Stratified</span>
               </div>
-              <div className="flex items-center justify-between text-navy-600">
+              <div className="flex items-center justify-between text-navy-400">
                 <span>Feature Scaling:</span>
-                <span className="font-semibold text-navy-900">RobustScaler</span>
+                <span className="font-semibold text-white">RobustScaler</span>
               </div>
-              <div className="flex items-center justify-between text-navy-600">
+              <div className="flex items-center justify-between text-navy-400">
                 <span>Missing Handling:</span>
-                <span className="font-semibold text-navy-900">IterativeImputer</span>
+                <span className="font-semibold text-white">IterativeImputer</span>
               </div>
             </div>
 
             {/* Launch Button */}
-            <div className="pt-4 border-t border-navy-100">
+            <div className="pt-4 border-t border-[#1a212d]">
               <button
                 type="button"
                 onClick={handleStartTraining}
                 disabled={isTraining}
-                className="w-full py-3 px-4 rounded-xl text-xs font-bold bg-brand-600 hover:bg-brand-700 text-white shadow-md shadow-brand-500/20 hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full py-3 px-4 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-black shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isTraining ? (
                   <>
@@ -270,7 +285,7 @@ export default function ModelTraining() {
                   </>
                 ) : (
                   <>
-                    <Play className="w-4 h-4 fill-white" />
+                    <Play className="w-4 h-4 fill-black" />
                     Train & Benchmark Models
                   </>
                 )}
@@ -280,14 +295,14 @@ export default function ModelTraining() {
 
           {/* Training progress placeholder bar */}
           {isTraining && (
-            <div className="bg-white rounded-xl border border-brand-200 p-4 shadow-subtle space-y-2">
-              <div className="flex justify-between text-xs font-semibold text-brand-900">
+            <div className="bg-[#0e131a] rounded-xl border border-emerald-500/40 p-4 shadow-subtle space-y-2">
+              <div className="flex justify-between text-xs font-semibold text-emerald-400">
                 <span>Running Auto-tuning pipeline...</span>
-                <span>{trainingProgress}%</span>
+                <span className="font-mono">{trainingProgress}%</span>
               </div>
-              <div className="w-full bg-brand-100 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-[#161c24] h-2 rounded-full overflow-hidden">
                 <div
-                  className="bg-brand-600 h-full transition-all duration-300"
+                  className="bg-gradient-to-r from-emerald-600 to-teal-400 h-full transition-all duration-300 shadow-[0_0_10px_#10b981]"
                   style={{ width: `${trainingProgress}%` }}
                 ></div>
               </div>
@@ -297,10 +312,10 @@ export default function ModelTraining() {
             </div>
           )}
 
-          <div className="p-4 rounded-xl bg-slate-50 border border-navy-200 text-xs text-navy-500 space-y-1">
-            <span className="font-semibold text-navy-800">Future FastAPI Integration:</span>
+          <div className="p-4 rounded-xl bg-[#0a0d12] border border-[#1a212d] text-xs text-navy-400 space-y-1">
+            <span className="font-semibold text-white">FastAPI Integration (Phase 3 Prep):</span>
             <p>
-              In Phase 2, clicking Train sends target specs to <code className="text-brand-700 font-mono">POST /train</code> to trigger distributed Scikit-Learn/XGBoost workers.
+              In future phases, clicking Train dispatches dataset specs to <code className="text-emerald-400 font-mono">POST /train</code> to trigger distributed Scikit-Learn/XGBoost workers.
             </p>
           </div>
         </div>
@@ -308,4 +323,3 @@ export default function ModelTraining() {
     </div>
   );
 }
-

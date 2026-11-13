@@ -1,19 +1,19 @@
 import React from 'react';
 
-export default function ChartCard({
-  title,
-  subtitle,
-  action,
+export default function ChartCard({ 
+  title, 
+  subtitle, 
+  action, 
   children,
-  className = ''
+  className = '' 
 }) {
   return (
-    <div className={`bg-white rounded-xl border border-navy-200/80 shadow-subtle p-5 flex flex-col ${className}`}>
+    <div className={`bg-[#0e131a] rounded-xl border border-[#1a212d] shadow-subtle p-5 flex flex-col ${className}`}>
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h3 className="text-base font-semibold text-navy-900">{title}</h3>
+          <h3 className="text-base font-semibold text-white">{title}</h3>
           {subtitle && (
-            <p className="text-xs text-navy-500 mt-0.5">{subtitle}</p>
+            <p className="text-xs text-navy-400 mt-0.5">{subtitle}</p>
           )}
         </div>
         {action && (
@@ -26,4 +26,3 @@ export default function ChartCard({
     </div>
   );
 }
-

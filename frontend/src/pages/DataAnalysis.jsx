@@ -10,9 +10,7 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell,
-  LineChart,
-  Line
+  Cell
 } from 'recharts';
 import {
   BarChart3,
@@ -30,7 +28,7 @@ import ChartCard from '../components/ChartCard';
 import MetricCard from '../components/MetricCard';
 import { MOCK_ANALYSIS_DATA, MOCK_DATASETS } from '../data/mockData';
 
-const PURPLE_COLORS = ['#9333ea', '#a855f7', '#c084fc', '#d8b4fe', '#e9d5ff'];
+const GRADIENT_GREEN_COLORS = ['#10b981', '#34d399', '#6ee7b7', '#059669', '#047857'];
 
 export default function DataAnalysis() {
   const [activeDataset] = useState(MOCK_DATASETS[0]);
@@ -46,7 +44,7 @@ export default function DataAnalysis() {
         actions={
           <NavLink
             to="/training"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow-sm transition-all"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-black shadow-lg shadow-emerald-500/20 transition-all"
           >
             <Cpu className="w-3.5 h-3.5" />
             Proceed to Model Training
@@ -92,19 +90,20 @@ export default function DataAnalysis() {
         >
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={distributions} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-              <XAxis dataKey="range" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#e2e8f0' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#64748b' }} axisLine={{ stroke: '#e2e8f0' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#1a212d" vertical={false} />
+              <XAxis dataKey="range" tick={{ fontSize: 11, fill: '#768390' }} axisLine={{ stroke: '#1a212d' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#768390' }} axisLine={{ stroke: '#1a212d' }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#ffffff',
-                  borderColor: '#e2e8f0',
-                  borderRadius: '8px',
-                  boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                  backgroundColor: '#0a0d12',
+                  borderColor: '#10b981',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
+                  color: '#ffffff',
                   fontSize: '12px'
                 }}
               />
-              <Bar dataKey="count" fill="#9333ea" radius={[4, 4, 0, 0]} name="Record Count" />
+              <Bar dataKey="count" fill="#10b981" radius={[4, 4, 0, 0]} name="Record Count" />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -128,14 +127,15 @@ export default function DataAnalysis() {
                   paddingAngle={4}
                 >
                   {categoricalBreakdown.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={PURPLE_COLORS[index % PURPLE_COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={GRADIENT_GREEN_COLORS[index % GRADIENT_GREEN_COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#ffffff',
-                    borderColor: '#e2e8f0',
-                    borderRadius: '8px',
+                    backgroundColor: '#0a0d12',
+                    borderColor: '#10b981',
+                    borderRadius: '10px',
+                    color: '#ffffff',
                     fontSize: '12px'
                   }}
                 />
@@ -147,10 +147,10 @@ export default function DataAnalysis() {
                 <div key={item.category} className="flex items-center gap-2">
                   <span
                     className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: PURPLE_COLORS[idx % PURPLE_COLORS.length] }}
+                    style={{ backgroundColor: GRADIENT_GREEN_COLORS[idx % GRADIENT_GREEN_COLORS.length] }}
                   ></span>
-                  <span className="font-medium text-navy-800">{item.category}:</span>
-                  <span className="text-navy-500 font-mono">{item.count} ({item.percentage}%)</span>
+                  <span className="font-medium text-white">{item.category}:</span>
+                  <span className="text-emerald-400 font-mono">{item.count} ({item.percentage}%)</span>
                 </div>
               ))}
             </div>
@@ -159,15 +159,15 @@ export default function DataAnalysis() {
       </div>
 
       {/* Correlation Heatmap Section */}
-      <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle">
+      <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-base font-semibold text-navy-900">Feature Correlation Matrix (Pearson r)</h3>
-            <p className="text-xs text-navy-500 mt-0.5">
+            <h3 className="text-base font-semibold text-white">Feature Correlation Matrix (Pearson r)</h3>
+            <p className="text-xs text-navy-400 mt-0.5">
               Identifies multicollinearity and high-impact relationships between numeric attributes.
             </p>
           </div>
-          <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase bg-brand-50 text-brand-700 border border-brand-200">
+          <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
             r ∈ [-1.0, +1.0]
           </span>
         </div>
@@ -175,7 +175,7 @@ export default function DataAnalysis() {
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-center border-collapse">
             <thead>
-              <tr className="border-b border-navy-200 bg-navy-50/50 text-navy-700 font-semibold font-mono">
+              <tr className="border-b border-[#1a212d] bg-[#0a0d12] text-navy-400 font-semibold font-mono">
                 <th className="py-2.5 px-3 text-left">Feature</th>
                 <th className="py-2.5 px-3">tenure_months</th>
                 <th className="py-2.5 px-3">monthly_charges</th>
@@ -184,10 +184,10 @@ export default function DataAnalysis() {
                 <th className="py-2.5 px-3">satisfaction</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-navy-100 font-mono">
+            <tbody className="divide-y divide-[#1a212d] font-mono">
               {correlationMatrix.map((row) => (
-                <tr key={row.feature} className="hover:bg-slate-50">
-                  <td className="py-2.5 px-3 text-left font-semibold text-navy-900 bg-navy-50/20">
+                <tr key={row.feature} className="hover:bg-[#121721]">
+                  <td className="py-2.5 px-3 text-left font-semibold text-white bg-[#0a0d12]">
                     {row.feature}
                   </td>
                   {['tenure_months', 'monthly_charges', 'total_charges', 'tickets', 'satisfaction'].map((colKey) => {
@@ -196,14 +196,15 @@ export default function DataAnalysis() {
                     return (
                       <td key={colKey} className="py-2.5 px-3">
                         <span
-                          className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold ${val === 1.0
-                              ? 'bg-navy-100 text-navy-600'
+                          className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold ${
+                            val === 1.0
+                              ? 'bg-[#18202c] text-white'
                               : isHigh
-                                ? 'bg-purple-100 text-purple-800 font-bold'
-                                : val < 0
-                                  ? 'text-rose-600 bg-rose-50'
-                                  : 'text-navy-700'
-                            }`}
+                              ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/40 font-bold'
+                              : val < 0
+                              ? 'text-rose-400 bg-rose-950/40 border border-rose-500/20'
+                              : 'text-navy-300'
+                          }`}
                         >
                           {val.toFixed(2)}
                         </span>
@@ -220,23 +221,24 @@ export default function DataAnalysis() {
       {/* Diagnostics: Missing Values & Outliers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Missing Values Table */}
-        <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle">
-          <h3 className="text-sm font-bold text-navy-900 mb-1">Missing Value Analysis & Imputation Strategy</h3>
-          <p className="text-xs text-navy-500 mb-4">Recommended handling prior to training execution.</p>
+        <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle">
+          <h3 className="text-sm font-bold text-white mb-1">Missing Value Analysis & Imputation Strategy</h3>
+          <p className="text-xs text-navy-400 mb-4">Recommended handling prior to training execution.</p>
 
           <div className="space-y-3">
             {missingValues.map((mv) => (
-              <div key={mv.column} className="flex items-center justify-between p-3 rounded-lg border border-navy-100 bg-slate-50/50 text-xs">
+              <div key={mv.column} className="flex items-center justify-between p-3 rounded-lg border border-[#1a212d] bg-[#0a0d12] text-xs">
                 <div>
-                  <span className="font-semibold font-mono text-navy-900">{mv.column}</span>
-                  <div className="text-[11px] text-navy-500 mt-0.5">
+                  <span className="font-semibold font-mono text-white">{mv.column}</span>
+                  <div className="text-[11px] text-navy-400 mt-0.5">
                     {mv.missingCount} null entries ({mv.missingPercent}%)
                   </div>
                 </div>
-                <span className={`px-2 py-1 rounded text-[11px] font-semibold ${mv.missingCount > 0
-                    ? 'bg-brand-50 text-brand-700 border border-brand-200'
-                    : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  }`}>
+                <span className={`px-2 py-1 rounded text-[11px] font-semibold ${
+                  mv.missingCount > 0 
+                    ? 'bg-amber-950/40 text-amber-300 border border-amber-500/30' 
+                    : 'bg-emerald-950/50 text-emerald-400 border border-emerald-500/30'
+                }`}>
                   {mv.action}
                 </span>
               </div>
@@ -245,20 +247,20 @@ export default function DataAnalysis() {
         </div>
 
         {/* Outlier Diagnostics */}
-        <div className="bg-white rounded-xl border border-navy-200/80 p-5 shadow-subtle">
-          <h3 className="text-sm font-bold text-navy-900 mb-1">Outlier Diagnostics</h3>
-          <p className="text-xs text-navy-500 mb-4">Interquartile range (IQR) and standard deviation analysis.</p>
+        <div className="bg-[#0e131a] rounded-xl border border-[#1a212d] p-5 shadow-subtle">
+          <h3 className="text-sm font-bold text-white mb-1">Outlier Diagnostics</h3>
+          <p className="text-xs text-navy-400 mb-4">Interquartile range (IQR) and standard deviation analysis.</p>
 
           <div className="space-y-3">
             {outliers.map((ot) => (
-              <div key={ot.column} className="flex items-center justify-between p-3 rounded-lg border border-navy-100 bg-slate-50/50 text-xs">
+              <div key={ot.column} className="flex items-center justify-between p-3 rounded-lg border border-[#1a212d] bg-[#0a0d12] text-xs">
                 <div>
-                  <span className="font-semibold font-mono text-navy-900">{ot.column}</span>
-                  <div className="text-[11px] text-navy-500 mt-0.5">
+                  <span className="font-semibold font-mono text-white">{ot.column}</span>
+                  <div className="text-[11px] text-navy-400 mt-0.5">
                     Method: {ot.method} • {ot.outlierCount} outliers
                   </div>
                 </div>
-                <span className="px-2 py-1 rounded text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                <span className="px-2 py-1 rounded text-[11px] font-semibold bg-amber-950/40 text-amber-300 border border-amber-500/30">
                   {ot.actionRecommended}
                 </span>
               </div>
@@ -269,4 +271,3 @@ export default function DataAnalysis() {
     </div>
   );
 }
-
