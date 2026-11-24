@@ -1,0 +1,12 @@
+StudentID,Gender,GradeLevel,StudyHoursPerWeek,AttendanceRate,MathScore,ReadingScore,WritingScore,PassedExam
+STU-001,Female,10,12.5,95.0,88,92,90,True
+STU-002,Male,11,8.0,88.5,72,68,70,True
+STU-003,Female,12,15.0,98.0,95,94,96,True
+STU-004,Male,9,5.5,75.0,58,62,55,False
+STU-005,Female,10,10.0,91.0,80,85,82,True
+STU-006,Male,11,6.0,80.0,64,60,58,False
+STU-007,Female,12,18.0,99.5,98,96,99,True
+STU-008,Male,10,,84.0,70,72,,True
+STU-009,Female,9,9.0,89.0,76,78,75,True
+STU-010,Male,12,14.0,94.0,85,82,88,True
+STU-011,Female,11,11.5,92.5,82,86,84,True
