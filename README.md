@@ -34,6 +34,30 @@ DataPilot is an automated data analytics platform designed to bridge raw data an
 - **Automated Rule-Based Insights**: Real mathematical observations on distribution skewness, class imbalances, missing data concentrations, and correlations without external LLM dependencies.
 - **Custom Visualization Builder**: Flexible interactive chart builder supporting Bar, Line, Scatter, Histogram, Box, and Donut charts with custom aggregations.
 
+### Phase 4: Interactive Analytics Dashboard & Dynamic Filtering System
+- **Unified Analytics Command Center**: Real-time business intelligence dashboard dynamically adapted to any structured dataset.
+- **Dynamic Business KPI Cards**:
+  - Auto-detected KPIs (Volume totals, averages, counts, unique entities).
+  - User-configurable KPI cards with Sum, Mean, Median, Count, Min, Max, and Unique aggregations.
+- **Global Multi-Type Filtering Panel**:
+  - Categorical multi-select filters with live record count previews.
+  - Continuous numerical range filters (Min / Max bounds).
+  - Date interval range filters (Start / End chronological intervals).
+  - Boolean exact-match filters.
+  - Simultaneous multi-filter Boolean AND execution across all components.
+- **Chart-to-Chart Cross-Filtering**:
+  - Interactive click-to-filter from chart bars and donut slices.
+  - Automatically filters all other visual components and KPI metrics with loop protection.
+  - Dedicated cross-filter status badge with one-click clear.
+- **Dashboard Customization & Persistence**:
+  - Add, reconfigure, or remove charts and KPI cards on the fly.
+  - Custom grid layout support (half-width, full-width).
+  - Persistent layout storage per dataset without external database dependencies.
+- **Multi-Format Export Engine**:
+  - Instant filtered CSV export.
+  - Instant filtered Excel (`.xlsx`) export.
+  - Formatted printable PDF / HTML Executive Dashboard Report containing active filters, KPIs, and chart summaries.
+
 ---
 
 ## 🎨 UI/UX Theme Specifications

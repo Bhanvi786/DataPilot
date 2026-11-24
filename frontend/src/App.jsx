@@ -7,6 +7,7 @@ import { UploadPage } from './pages/UploadPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { CleaningPage } from './pages/CleaningPage';
 import { EDAPage } from './pages/EDAPage';
+import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
 import { SettingsPage } from './pages/SettingsPage';
 import { AboutPage } from './pages/AboutPage';
 
@@ -21,6 +22,7 @@ export function App() {
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/cleaning" element={<CleaningPage />} />
             <Route path="/eda" element={<EDAPage />} />
+            <Route path="/dashboard" element={<AnalyticsDashboard />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

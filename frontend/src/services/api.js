@@ -79,4 +79,36 @@ export const getEDAInsights = async (datasetId, version = 'cleaned') =>
 export const generateCustomChart = async (datasetId, config, version = 'cleaned') =>
   (await apiClient.post(`/dataset/${datasetId}/eda/custom-chart?version=${version}`, config)).data;
 
+// Phase 4 Interactive Analytics Dashboard Endpoints
+export const getDashboardOverview = async (datasetId, version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/dashboard/overview?version=${version}`)).data;
+
+export const evaluateDashboardFilters = async (datasetId, payload, version = 'cleaned') =>
+  (await apiClient.post(`/dataset/${datasetId}/dashboard/filters?version=${version}`, payload)).data;
+
+export const calculateDashboardKPIs = async (datasetId, payload, version = 'cleaned') =>
+  (await apiClient.post(`/dataset/${datasetId}/dashboard/kpis?version=${version}`, payload)).data;
+
+export const getDashboardChartData = async (datasetId, payload, version = 'cleaned') =>
+  (await apiClient.post(`/dataset/${datasetId}/dashboard/chart?version=${version}`, payload)).data;
+
+export const processCrossFilter = async (datasetId, payload, version = 'cleaned') =>
+  (await apiClient.post(`/dataset/${datasetId}/dashboard/cross-filter?version=${version}`, payload)).data;
+
+export const getDashboardConfig = async (datasetId) =>
+  (await apiClient.get(`/dataset/${datasetId}/dashboard/config`)).data;
+
+export const saveDashboardConfig = async (datasetId, config) =>
+  (await apiClient.post(`/dataset/${datasetId}/dashboard/config`, config)).data;
+
+export const exportDashboard = async (datasetId, payload, version = 'cleaned') => {
+  const format = payload.format || 'csv';
+  const responseType = format === 'csv' || format === 'excel' ? 'blob' : 'text';
+  return (
+    await apiClient.post(`/dataset/${datasetId}/dashboard/export?version=${version}`, payload, {
+      responseType,
+    })
+  ).data;
+};
+
 export default apiClient;

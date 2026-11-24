@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from config import settings
 from routes.dataset_routes import router as dataset_router
 from routes.eda_routes import router as eda_router
+from routes.dashboard_routes import router as dashboard_router
 
 app = FastAPI(
     title="DataPilot API",
@@ -24,6 +25,7 @@ app.add_middleware(
 # Register routes under /api
 app.include_router(dataset_router, prefix=settings.API_PREFIX)
 app.include_router(eda_router, prefix=settings.API_PREFIX)
+app.include_router(dashboard_router, prefix=settings.API_PREFIX)
 
 
 @app.get("/")

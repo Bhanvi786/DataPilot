@@ -6,6 +6,7 @@ import {
   Table2, 
   Sparkles,
   BarChart3,
+  LayoutDashboard,
   Settings, 
   Info, 
   Database,
@@ -19,6 +20,7 @@ const navigationItems = [
   { name: 'Data Overview', path: '/overview', icon: Table2 },
   { name: 'Data Cleaning', path: '/cleaning', icon: Sparkles },
   { name: 'Automated EDA', path: '/eda', icon: BarChart3 },
+  { name: 'Analytics Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Settings', path: '/settings', icon: Settings },
   { name: 'About DataPilot', path: '/about', icon: Info },
 ];
