@@ -52,4 +52,31 @@ export const resetCleaning = async (datasetId) =>
 export const getExportUrl = (datasetId, format = 'csv', version = 'cleaned') =>
   `${API_BASE_URL}/dataset/${datasetId}/export?format=${format}&version=${version}`;
 
+// Phase 3 Automated EDA & Intelligent Visualizations
+export const getEDAOverview = async (datasetId, version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/eda/overview?version=${version}`)).data;
+
+export const getEDAStatistics = async (datasetId, version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/eda/statistics?version=${version}`)).data;
+
+export const getEDANumerical = async (datasetId, version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/eda/numerical?version=${version}`)).data;
+
+export const getEDACategorical = async (datasetId, version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/eda/categorical?version=${version}`)).data;
+
+export const getEDACorrelation = async (datasetId, method = 'pearson', version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/eda/correlation?method=${method}&version=${version}`)).data;
+
+export const getEDATimeSeries = async (datasetId, params = {}, version = 'cleaned') => {
+  const query = new URLSearchParams({ version, ...params }).toString();
+  return (await apiClient.get(`/dataset/${datasetId}/eda/timeseries?${query}`)).data;
+};
+
+export const getEDAInsights = async (datasetId, version = 'cleaned') =>
+  (await apiClient.get(`/dataset/${datasetId}/eda/insights?version=${version}`)).data;
+
+export const generateCustomChart = async (datasetId, config, version = 'cleaned') =>
+  (await apiClient.post(`/dataset/${datasetId}/eda/custom-chart?version=${version}`, config)).data;
+
 export default apiClient;
