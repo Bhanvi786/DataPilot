@@ -1,142 +1,114 @@
 import React from 'react';
 import { UploadBox } from '../components/UploadBox';
-import { KPICards } from '../components/KPICards';
-import { DatasetPreviewTable } from '../components/DatasetPreviewTable';
-import { ColumnInfoTable } from '../components/ColumnInfoTable';
 import { useDataset } from '../context/DatasetContext';
-import { Sparkles, BarChart3, Cpu, FileText, HardDrive, Hash, Layers } from 'lucide-react';
+import { Sparkles, BarChart3, LayoutDashboard, FileSpreadsheet, ArrowRight, ShieldCheck, Zap, Database } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const HomePage = () => {
   const { metadata } = useDataset();
 
   return (
-    <div className="space-y-8">
-      {/* Hero Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#14231E] via-[#0D1512] to-[#080D0C] border border-[#244536] p-8 md:p-10 shadow-2xl">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-[#20C997]/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="max-w-5xl mx-auto space-y-12 py-4">
+      {/* 1. Main Welcome Hero */}
+      <div className="text-center space-y-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#20C997]/10 border border-[#20C997]/30 text-[#6EE7B7] text-xs font-bold uppercase tracking-wider">
+          <Sparkles size={14} /> Automatic Dashboard Generator
+        </div>
 
-        <div className="max-w-3xl space-y-3 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#20C997]/10 border border-[#20C997]/30 text-[#6EE7B7] text-xs font-bold uppercase tracking-wider">
-            <Sparkles size={14} /> AI-Powered Analytics
+        <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+          Turn Your Data Into <br className="hidden sm:inline" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#6EE7B7] to-[#20C997]">
+            Beautiful Dashboards
+          </span>
+        </h1>
+
+        <p className="text-[#A7B5AE] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          Upload your Excel or CSV file and let DataPilot automatically transform your data into meaningful insights and interactive visualisations.
+        </p>
+      </div>
+
+      {/* 2. Drag & Drop Upload Zone */}
+      <div className="bg-[#0D1512] border border-[#244536] rounded-3xl p-6 md:p-8 shadow-2xl space-y-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mt-12 -mr-12 w-64 h-64 bg-[#20C997]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <UploadBox autoRedirect={true} />
+        <div className="flex flex-wrap items-center justify-between text-xs text-[#A7B5AE] px-2 pt-2 border-t border-[#244536]/60">
+          <span className="flex items-center gap-1.5">
+            <FileSpreadsheet size={14} className="text-[#20C997]" /> Supported formats: .csv, .xlsx, .xls
+          </span>
+          <span>Max file size: 50MB</span>
+        </div>
+      </div>
+
+      {/* 3. Three-Step Visual Explanation */}
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-white">How DataPilot Works</h2>
+          <p className="text-xs text-[#A7B5AE] mt-1">Zero technical configuration required — completely automatic</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Step 1 */}
+          <div className="bg-[#0D1512] border border-[#244536] rounded-2xl p-6 relative group hover:border-[#20C997]/50 transition-all shadow-lg">
+            <div className="w-10 h-10 rounded-xl bg-[#14231E] border border-[#244536] flex items-center justify-center text-[#20C997] font-black text-sm mb-4">
+              01
+            </div>
+            <h3 className="text-base font-bold text-white mb-2">Upload Your Data</h3>
+            <p className="text-xs text-[#A7B5AE] leading-relaxed">
+              Upload any raw Excel or CSV spreadsheet. Never worry about formatting or pre-cleaning beforehand.
+            </p>
           </div>
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-            Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#6EE7B7] to-[#20C997]">DataPilot</span>
-          </h1>
-          <p className="text-lg font-medium text-[#20C997]">
-            Your intelligent data analytics companion.
-          </p>
-          <p className="text-[#A7B5AE] text-sm md:text-base leading-relaxed">
-            DataPilot automates modern data ingestion, profiling, and quality validation. Upload any raw CSV or Excel dataset to automatically uncover dimensions, analyze distributions, inspect schema types, and prepare for automated decision intelligence.
-          </p>
+
+          {/* Step 2 */}
+          <div className="bg-[#0D1512] border border-[#244536] rounded-2xl p-6 relative group hover:border-[#20C997]/50 transition-all shadow-lg">
+            <div className="w-10 h-10 rounded-xl bg-[#14231E] border border-[#244536] flex items-center justify-center text-[#6EE7B7] font-black text-sm mb-4">
+              02
+            </div>
+            <h3 className="text-base font-bold text-white mb-2">Automatic Analysis</h3>
+            <p className="text-xs text-[#A7B5AE] leading-relaxed">
+              DataPilot detects metrics, categories, dates and relationships in the background without needing your guidance.
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div className="bg-[#0D1512] border border-[#244536] rounded-2xl p-6 relative group hover:border-[#20C997]/50 transition-all shadow-lg">
+            <div className="w-10 h-10 rounded-xl bg-[#14231E] border border-[#244536] flex items-center justify-center text-[#20C997] font-black text-sm mb-4">
+              03
+            </div>
+            <h3 className="text-base font-bold text-white mb-2">Explore Your Dashboard</h3>
+            <p className="text-xs text-[#A7B5AE] leading-relaxed">
+              Get an instant dashboard with vibrant graphs, dynamic KPI cards, plain English observations, and exportable reports.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Upload Zone */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <span>📤</span> Upload Dataset
-          </h2>
-          <span className="text-xs text-[#A7B5AE]">Supported: CSV, XLSX (Drag & Drop)</span>
-        </div>
-        <UploadBox />
-      </div>
-
-      {/* Info Callout */}
-      <div className="p-4 rounded-xl bg-[#20C997]/5 border-l-4 border-[#20C997] text-xs text-[#A7B5AE] leading-relaxed">
-        💡 <strong className="text-white">What happens after uploading:</strong> Your file is parsed in-memory, key quality metrics (missing values, duplicate rows) are computed dynamically, and an interactive schema preview is generated in real-time.
-      </div>
-
-      {/* Active Dataset Inspection (if loaded) */}
+      {/* 4. Active Project Banner if dataset loaded */}
       {metadata && (
-        <div className="space-y-6 pt-4 border-t border-[#244536]">
-          {/* Metadata Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-[#14231E] border border-[#244536] rounded-xl p-4 flex items-center gap-3">
-              <FileText size={22} className="text-[#20C997] shrink-0" />
-              <div className="overflow-hidden">
-                <div className="text-[10px] text-[#A7B5AE] uppercase font-bold">File Name</div>
-                <div className="text-xs font-bold text-white truncate">{metadata.file_name}</div>
-              </div>
+        <div className="bg-[#14231E] border border-[#20C997]/50 rounded-2xl p-6 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-[#20C997]/20 border border-[#20C997]/40 flex items-center justify-center text-[#20C997]">
+              <Database size={24} />
             </div>
-            <div className="bg-[#14231E] border border-[#244536] rounded-xl p-4 flex items-center gap-3">
-              <HardDrive size={22} className="text-[#20C997] shrink-0" />
-              <div>
-                <div className="text-[10px] text-[#A7B5AE] uppercase font-bold">File Size</div>
-                <div className="text-xs font-bold text-white">{metadata.file_size}</div>
-              </div>
-            </div>
-            <div className="bg-[#14231E] border border-[#244536] rounded-xl p-4 flex items-center gap-3">
-              <Layers size={22} className="text-[#6EE7B7] shrink-0" />
-              <div>
-                <div className="text-[10px] text-[#A7B5AE] uppercase font-bold">Records</div>
-                <div className="text-xs font-bold text-[#6EE7B7]">{metadata.records?.toLocaleString()}</div>
-              </div>
-            </div>
-            <div className="bg-[#14231E] border border-[#244536] rounded-xl p-4 flex items-center gap-3">
-              <Hash size={22} className="text-[#6EE7B7] shrink-0" />
-              <div>
-                <div className="text-[10px] text-[#A7B5AE] uppercase font-bold">Features</div>
-                <div className="text-xs font-bold text-[#6EE7B7]">{metadata.features} columns</div>
+            <div>
+              <div className="text-xs font-bold text-[#A7B5AE] uppercase tracking-wider">Active Loaded Dataset</div>
+              <div className="text-base font-extrabold text-white">{metadata.file_name}</div>
+              <div className="text-xs text-[#6EE7B7]">
+                {metadata.records?.toLocaleString()} records • {metadata.features} attributes analyzed
               </div>
             </div>
           </div>
 
-          {/* Dynamic KPI Cards */}
-          <KPICards kpis={metadata.kpis} />
-
-          {/* Interactive Preview Table */}
-          <DatasetPreviewTable />
-
-          {/* Column Profile Table */}
-          <ColumnInfoTable />
+          <Link
+            to="/dashboard"
+            className="px-6 py-2.5 rounded-xl bg-[#20C997] hover:bg-[#6EE7B7] text-[#080D0C] font-extrabold text-xs transition-all shadow-lg shadow-[#20C997]/20 flex items-center gap-2"
+          >
+            <span>Open Dashboard</span>
+            <ArrowRight size={16} />
+          </Link>
         </div>
       )}
-
-      {/* Feature Capabilities Grid */}
-      <div className="space-y-4 pt-4 border-t border-[#244536]">
-        <h2 className="text-lg font-bold text-white">Platform Capabilities</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-[#14231E] border border-[#244536] rounded-xl p-6 hover:border-[#20C997] transition-all duration-200 shadow-lg shadow-black/40 group">
-            <div className="w-11 h-11 rounded-lg bg-[#20C997]/10 border border-[#20C997]/30 flex items-center justify-center text-[#20C997] mb-4 group-hover:scale-105 transition-transform">
-              <Sparkles size={20} />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2">Automated Data Analysis</h3>
-            <p className="text-xs text-[#A7B5AE] leading-relaxed mb-4">
-              Comprehensive exploratory data analysis, statistical summaries, correlation profiling, and automated anomaly detection.
-            </p>
-            <span className="inline-block text-[10px] font-semibold px-2.5 py-1 rounded bg-[#244536]/60 text-[#6EE7B7] border border-[#244536]">
-              Planned for Phase 2
-            </span>
-          </div>
-
-          <div className="bg-[#14231E] border border-[#244536] rounded-xl p-6 hover:border-[#20C997] transition-all duration-200 shadow-lg shadow-black/40 group">
-            <div className="w-11 h-11 rounded-lg bg-[#20C997]/10 border border-[#20C997]/30 flex items-center justify-center text-[#20C997] mb-4 group-hover:scale-105 transition-transform">
-              <BarChart3 size={20} />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2">Interactive Visualizations</h3>
-            <p className="text-xs text-[#A7B5AE] leading-relaxed mb-4">
-              Dynamic Plotly dashboards, custom charting engines, distribution plots, and executive visual metrics on demand.
-            </p>
-            <span className="inline-block text-[10px] font-semibold px-2.5 py-1 rounded bg-[#244536]/60 text-[#6EE7B7] border border-[#244536]">
-              Planned for Phase 2
-            </span>
-          </div>
-
-          <div className="bg-[#14231E] border border-[#244536] rounded-xl p-6 hover:border-[#20C997] transition-all duration-200 shadow-lg shadow-black/40 group">
-            <div className="w-11 h-11 rounded-lg bg-[#20C997]/10 border border-[#20C997]/30 flex items-center justify-center text-[#20C997] mb-4 group-hover:scale-105 transition-transform">
-              <Cpu size={20} />
-            </div>
-            <h3 className="text-base font-bold text-white mb-2">Machine Learning Predictions</h3>
-            <p className="text-xs text-[#A7B5AE] leading-relaxed mb-4">
-              Automated model selection, feature engineering, classification, regression pipelines, and predictive intelligence.
-            </p>
-            <span className="inline-block text-[10px] font-semibold px-2.5 py-1 rounded bg-[#244536]/60 text-[#6EE7B7] border border-[#244536]">
-              Planned for Phase 3
-            </span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
+
+export default HomePage;

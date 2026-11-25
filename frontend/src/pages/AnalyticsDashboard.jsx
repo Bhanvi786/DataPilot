@@ -32,6 +32,7 @@ import {
   MousePointerClick
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { NaturalSearchEngine } from '../components/NaturalSearchEngine';
 
 const darkPlotLayout = {
   paper_bgcolor: 'transparent',
@@ -456,21 +457,19 @@ export const AnalyticsDashboard = () => {
           <div className="flex items-center bg-[#0D1512] p-1 rounded-xl border border-[#244536]">
             <button
               onClick={() => { setVersion('cleaned'); }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                version === 'cleaned'
-                  ? 'bg-[#20C997] text-[#080D0C] shadow-md shadow-[#20C997]/20'
-                  : 'text-[#A7B5AE] hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${version === 'cleaned'
+                ? 'bg-[#20C997] text-[#080D0C] shadow-md shadow-[#20C997]/20'
+                : 'text-[#A7B5AE] hover:text-white'
+                }`}
             >
               Cleaned Data
             </button>
             <button
               onClick={() => { setVersion('original'); }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                version === 'original'
-                  ? 'bg-[#20C997] text-[#080D0C] shadow-md shadow-[#20C997]/20'
-                  : 'text-[#A7B5AE] hover:text-white'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${version === 'original'
+                ? 'bg-[#20C997] text-[#080D0C] shadow-md shadow-[#20C997]/20'
+                : 'text-[#A7B5AE] hover:text-white'
+                }`}
             >
               Original Data
             </button>
@@ -523,6 +522,9 @@ export const AnalyticsDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* NATURAL LANGUAGE SEARCH ENGINE */}
+      <NaturalSearchEngine datasetId={datasetId} version={version} />
 
       {/* B. DYNAMIC KPI SECTION */}
       <div className="space-y-3">
@@ -645,11 +647,10 @@ export const AnalyticsDashboard = () => {
                         <div
                           key={opt}
                           onClick={() => handleCategoricalFilterChange(col, opt)}
-                          className={`flex items-center justify-between px-2 py-1 rounded cursor-pointer transition-all ${
-                            isSelected
-                              ? 'bg-[#20C997]/20 text-[#6EE7B7] border border-[#20C997]/40 font-bold'
-                              : 'text-[#A7B5AE] hover:bg-[#14231E] hover:text-white'
-                          }`}
+                          className={`flex items-center justify-between px-2 py-1 rounded cursor-pointer transition-all ${isSelected
+                            ? 'bg-[#20C997]/20 text-[#6EE7B7] border border-[#20C997]/40 font-bold'
+                            : 'text-[#A7B5AE] hover:bg-[#14231E] hover:text-white'
+                            }`}
                         >
                           <span className="truncate max-w-[170px]">{opt}</span>
                           {isSelected && <Check size={12} className="text-[#20C997]" />}
@@ -750,9 +751,8 @@ export const AnalyticsDashboard = () => {
             return (
               <div
                 key={cfg.id}
-                className={`bg-[#0D1512] border border-[#244536] rounded-xl p-5 shadow-xl relative group ${
-                  isFullWidth ? 'lg:col-span-2' : ''
-                }`}
+                className={`bg-[#0D1512] border border-[#244536] rounded-xl p-5 shadow-xl relative group ${isFullWidth ? 'lg:col-span-2' : ''
+                  }`}
               >
                 {/* Chart Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-[#244536]/80 mb-3">
@@ -761,13 +761,12 @@ export const AnalyticsDashboard = () => {
                       {cfg.title}
                       {chartData?.trend_direction && (
                         <span
-                          className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${
-                            chartData.trend_direction === 'Upward'
-                              ? 'bg-emerald-950/80 text-[#6EE7B7] border border-emerald-800/80'
-                              : chartData.trend_direction === 'Downward'
+                          className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${chartData.trend_direction === 'Upward'
+                            ? 'bg-emerald-950/80 text-[#6EE7B7] border border-emerald-800/80'
+                            : chartData.trend_direction === 'Downward'
                               ? 'bg-rose-950/80 text-rose-400 border border-rose-800/80'
                               : 'bg-zinc-800 text-zinc-300'
-                          }`}
+                            }`}
                         >
                           Trend: {chartData.trend_direction} ({chartData.trend_percentage}%)
                         </span>

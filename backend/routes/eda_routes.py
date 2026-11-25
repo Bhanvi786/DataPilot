@@ -199,3 +199,24 @@ def generate_custom_chart(dataset_id: str, config: Dict[str, Any] = Body(...), v
         raise HTTPException(status_code=400, detail=result["error"])
 
     return result
+
+
+@router.post("/dataset/{dataset_id}/query")
+def ask_natural_query(
+    dataset_id: str,
+    payload: Dict[str, Any] = Body(...),
+    version: str = Query("cleaned")
+):
+    """
+    Search engine endpoint: translates plain English questions into pandas operations.
+    e.g., 'which area had max sales', 'total revenue by city', 'average profit'
+    """
+    query = payload.get("query", "").strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="Query string is required.")
+
+    df = get_active_dataframe(dataset_id, version)
+    from services.eda.query_engine import QueryEngine
+    result = QueryEngine.process_query(df, query)
+    return result
+

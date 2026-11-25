@@ -21,7 +21,6 @@ import {
   Sliders,
   ChevronDown,
   ChevronUp,
-  Lightbulb,
   AlertCircle,
   HelpCircle,
   Clock,
@@ -90,7 +89,6 @@ export const EDAPage = () => {
     identifiers: true,
     correlation: true,
     timeseries: true,
-    insights: true,
     custom: true
   });
 
@@ -317,37 +315,6 @@ export const EDAPage = () => {
           <div className="bg-[#14231E] border border-[#244536] rounded-xl p-4">
             <div className="text-[10px] text-[#A7B5AE] uppercase font-bold">Detected Identifiers</div>
             <div className="text-2xl font-black text-[#6EE7B7] mt-1">{overview.identifier_count} columns</div>
-          </div>
-        </div>
-      )}
-
-      {/* H. AUTOMATED STATISTICAL INSIGHTS */}
-      {insights.length > 0 && (
-        <div className="bg-[#14231E] border border-[#244536] rounded-xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#244536]">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <Lightbulb size={18} className="text-[#20C997]" /> Automated Statistical Insights
-            </h3>
-            <span className="text-xs text-[#A7B5AE]">{insights.length} mathematical observations</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {insights.map((ins, idx) => (
-              <div
-                key={idx}
-                className="bg-[#0D1512] border border-[#244536] rounded-xl p-4 space-y-1.5 hover:border-[#20C997]/60 transition-all"
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-white">{ins.title}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#244536]/60 text-[#6EE7B7]">
-                    {ins.category}
-                  </span>
-                </div>
-                <p className="text-xs text-[#A7B5AE] leading-relaxed">
-                  {ins.observation}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       )}

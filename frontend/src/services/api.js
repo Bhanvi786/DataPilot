@@ -111,4 +111,7 @@ export const exportDashboard = async (datasetId, payload, version = 'cleaned') =
   ).data;
 };
 
+export const queryDataset = async (datasetId, query, version = 'cleaned') =>
+  (await apiClient.post(`/dataset/${datasetId}/query?version=${version}`, { query })).data;
+
 export default apiClient;
